@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 from logging import NullHandler
 import pandas as pd
@@ -10,20 +9,32 @@ import matplotlib.pyplot as plt
 
 st.title('Object Detection Model')
 
-uploaded_image = st.file_uploader('Upload the image you want to run through the ML Object Detection model', type = ['jpg','jpeg','png'],accept_multiple_files=True)
-
-cols = st.columns(2)
+browse,text,camera = st.columns(3)
+upload_image = browse.file_uploader('Upload the image', type = ['jpg','jpeg','png'])
+text = text.subheader('           OR                ')
+click_image = camera.camera_input("Take a picture")
 
 model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'"C:\Users\shrut\Downloads\best.pt"')
 
-count = 0
-for uploaded_file in uploaded_image:
-    if uploaded_file is not None:
-        image = Image.open(uploaded_file)
-        # st.image(image, caption='Fashion Product Image',width=200)
-        result = model(image,size=640)
-        cols[count].header("YOLO trained image")
-        cols[count].subheader(count+1)
-        cols[count].image(np.squeeze(result.render()),width=300)
-        count = count + 1
+image1,image2 = st.columns(2)
+
+def display_YOLO_trained_image(img,uploaded):
+    result = model(img,size=416)
+    if(uploaded):
+        image1.header("YOLO trained uploaded image")
+        image1.image(np.squeeze(result.render()),width=300)
+        image1.write(result.pandas().xyxy[0].name.tolist())
+    else:   
+        image2.header("YOLO trained captured image")
+        image2.image(np.squeeze(result.render()),width=300)
+        image2.write(result.pandas().xyxy[0].name.tolist())
+
+if click_image:
+    img = Image.open(click_image)
+    display_YOLO_trained_image(img,uploaded=False)
+
+
+if upload_image is not None:
+    img = Image.open(upload_image)
+    display_YOLO_trained_image(img,uploaded=True)
         
