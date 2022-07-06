@@ -14,7 +14,7 @@ uploaded_image = st.file_uploader('Upload the image you want to run through the 
 
 cols = st.columns(2)
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'C:\Users\Admin\Desktop\yolov5_results\Web App\yolov5\\runs\\train\\exp\\weights\\best.pt')
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'"C:\Users\shrut\Downloads\best.pt"')
 
 count = 0
 for uploaded_file in uploaded_image:
