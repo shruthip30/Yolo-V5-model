@@ -1,4 +1,3 @@
-
 from logging import NullHandler
 import pandas as pd
 import numpy as np
@@ -19,7 +18,7 @@ model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'"C:\Users\shrut\Do
 image1,image2 = st.columns(2)
 
 def display_YOLO_trained_image(img,uploaded):
-    result = model(img,size=416)
+    result = model(img,size=640)
     if(uploaded):
         image1.header("YOLO trained uploaded image")
         image1.image(np.squeeze(result.render()),width=300)
@@ -37,4 +36,3 @@ if click_image:
 if upload_image is not None:
     img = Image.open(upload_image)
     display_YOLO_trained_image(img,uploaded=True)
-        
