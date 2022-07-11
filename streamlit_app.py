@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 from PIL import Image
-import torch
+
 import matplotlib.pyplot as plt
 
 st.title('Object Detection Model')
